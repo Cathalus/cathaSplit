@@ -1,6 +1,7 @@
 package com.cathalus.javasplitter.util;
 
 import com.cathalus.javasplitter.model.Hotkey;
+import com.cathalus.javasplitter.model.Run;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -18,4 +19,8 @@ public class Globals {
     }};
 
     public static long START = System.nanoTime();
+    public static long END;
+    public static Run CURRENT_RUN;
+    public static boolean IS_RUNNING = false;
+    public static int CURRENT_SPLIT_ID = 0;
 }

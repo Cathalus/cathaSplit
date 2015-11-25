@@ -1,9 +1,13 @@
 package com.cathalus.javasplitter;
 
 import com.cathalus.javasplitter.events.HotkeyEventHandler;
+import com.cathalus.javasplitter.model.Run;
+import com.cathalus.javasplitter.model.Split;
+import com.cathalus.javasplitter.presenter.SplitsPresenter;
 import com.cathalus.javasplitter.presenter.TimerPresenter;
 import com.cathalus.javasplitter.util.Globals;
 import com.cathalus.javasplitter.view.Display;
+import com.cathalus.javasplitter.view.SplitsView;
 import com.cathalus.javasplitter.view.TimerView;
 import com.tulskiy.keymaster.common.Provider;
 import javafx.scene.Scene;
@@ -27,12 +31,14 @@ public class JavaSplitter extends GUIApplication {
     private Object lock = new Object();
 
     public static HotkeyEventHandler HotkeyHandler;
-    public static java.util.Timer Timer;
+    public static TimeController TimeController;
 
     public JavaSplitter()
     {
         HotkeyHandler = new HotkeyEventHandler();
+        TimeController = new TimeController(100);
 
+        loadRun();
         setupProvider();
     }
 
@@ -50,11 +56,18 @@ public class JavaSplitter extends GUIApplication {
         Pane windowLayout = new BorderPane();
 
         presenters.put("TimerPresenter", new TimerPresenter(this, null, windowLayout));
+        presenters.put("SplitsPresenter", new SplitsPresenter(this,null,windowLayout));
+
         views.put("TimerView", new TimerView());
+        views.put("SplitsView", new SplitsView());
 
         displays.add(views.get("TimerView"));
+        displays.add(views.get("SplitsView"));
+
         presenters.get("TimerPresenter").setDisplays(displays);
         presenters.get("TimerPresenter").start();
+        presenters.get("SplitsPresenter").setDisplays(displays);
+        presenters.get("SplitsPresenter").start();
 
         this.window.setScene(new Scene(windowLayout,300,300));
         this.window.show();
@@ -76,5 +89,22 @@ public class JavaSplitter extends GUIApplication {
                 strokes.remove(stroke);
             });
         }
+    }
+
+    private void loadRun()
+    {
+        Globals.CURRENT_RUN = new Run("TestGame");
+        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
+        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
+        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
+        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
+        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
+        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
+        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
+        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
+        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
+        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
+        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
+        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
     }
 }
