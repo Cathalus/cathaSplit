@@ -20,11 +20,11 @@
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best">
-          <RealTime>00:04:20</RealTime>
+          <RealTime>00:00:10</RealTime>
         </SplitTime>
       </SplitTimes>
       <BestSegmentTime>
-        <RealTime>00:04:20</RealTime>
+        <RealTime>00:00:10</RealTime>
       </BestSegmentTime>
       <SegmentHistory />
     </Segment>
@@ -33,11 +33,11 @@
       <Icon />
       <SplitTimes>
         <SplitTime name="Personal Best">
-          <RealTime>01:07:00</RealTime>
+          <RealTime>00:01:00</RealTime>
         </SplitTime>
       </SplitTimes>
       <BestSegmentTime>
-        <RealTime>01:02:40</RealTime>
+        <RealTime>00:01:00</RealTime>
       </BestSegmentTime>
       <SegmentHistory />
     </Segment>

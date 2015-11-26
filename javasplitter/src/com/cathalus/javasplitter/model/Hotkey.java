@@ -3,6 +3,10 @@ package com.cathalus.javasplitter.model;
 /**
  * Created by Cathalus on 24/11/2015.
  */
+
+/**
+ * Enumeration of all valid Hotkeys
+ */
 public enum  Hotkey {
     DEFAULT {
         @Override
@@ -37,5 +41,8 @@ public enum  Hotkey {
         }
     };
 
+    /**
+     * @return Returns a (more) readable version of the hotkey name
+     */
     public abstract String toString();
 }

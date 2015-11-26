@@ -8,6 +8,10 @@ import javafx.scene.layout.VBox;
 /**
  * Created by Raymond on 25.11.2015.
  */
+
+/**
+ * Displays the list of <code>Segment</code>s in a <code>Run</code>
+ */
 public class SegmentsView implements SegementsPresenter.SegmentsDisplay {
 
     private VBox box = new VBox();

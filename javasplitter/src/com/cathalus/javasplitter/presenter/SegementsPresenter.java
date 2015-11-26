@@ -84,7 +84,7 @@ public class SegementsPresenter extends Presenter implements HotkeyEventListener
             labels.clear();
             for(Segment s : segments)
             {
-                labels.add(new Label(s.getName()+" - "+s.getMiliseconds()));
+                labels.add(new Label(s.getName()+" - "+s.getBestTime()));
             }
 
             // clear list of segments

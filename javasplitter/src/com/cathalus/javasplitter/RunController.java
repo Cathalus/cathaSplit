@@ -8,8 +8,15 @@ import java.util.LinkedList;
 /**
  * Created by Raymond on 26.11.2015.
  */
+
+/**
+ * Controls attributes of the current <code>Run</code>.
+ */
 public class RunController {
 
+    /**
+     *
+     */
     private Run current;
     private int currentSplitIndex = 0;
     private boolean hasFinished = false;

@@ -99,4 +99,9 @@ public class RunParser {
         }
     }
 
+    public Run getRun()
+    {
+        return parsedRun;
+    }
+
 }

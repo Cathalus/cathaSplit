@@ -3,33 +3,41 @@ package com.cathalus.javasplitter.model;
 /**
  * Created by Raymond on 25.11.2015.
  */
+
+/**
+ * Describes a Segment of a run
+ */
 public class Segment {
 
-    private int current = -1;
-    private int miliseconds;
+    /**
+     * Current time of the segment in milliseconds (from start)
+     */
+    int currentTime = 0;
+    /**
+     * Best time of the segment in milliseconds (from start)
+     */
+    private int bestTime;
+    /**
+     * Difference between currentTime and bestTime
+     */
     private int difference = -1;
+    /**
+     * Name of the segment
+     */
     private String name;
 
-    public Segment(String name, int miliseconds)
+    public Segment(String name, int bestTime)
     {
         this.name = name;
-        this.miliseconds = miliseconds;
+        this.bestTime = bestTime;
     }
 
-    public int getCurrent() {
-        return current;
+    public int getBestTime() {
+        return bestTime;
     }
 
-    public void setCurrent(int current) {
-        this.current = current;
-    }
-
-    public int getMiliseconds() {
-        return miliseconds;
-    }
-
-    public void setMiliseconds(int miliseconds) {
-        this.miliseconds = miliseconds;
+    public void setBestTime(int bestTime) {
+        this.bestTime = bestTime;
     }
 
     public int getDifference() {
@@ -46,5 +54,14 @@ public class Segment {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(int currentTime) {
+        this.difference = bestTime-currentTime;
+        this.currentTime = currentTime;
     }
 }

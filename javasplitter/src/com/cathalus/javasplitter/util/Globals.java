@@ -11,12 +11,21 @@ import java.util.HashMap;
  */
 public class Globals {
 
+    /**
+     * Maps all <code>Hotkey</code>s to <code>Keystroke</code>s
+     */
     public static HashMap<Hotkey, KeyStroke> HOTKEYS = new HashMap<Hotkey,KeyStroke>(){{
         put(Hotkey.START, KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
         put(Hotkey.SEGMENT, KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
         put(Hotkey.RESET, KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
     }};
 
-    public static long START = System.nanoTime();
+    /**
+     * Start time of the run
+     */
+    public static long START;
+    /**
+     * End time of the run
+     */
     public static long END;
 }

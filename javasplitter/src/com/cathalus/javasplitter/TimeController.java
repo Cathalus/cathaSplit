@@ -82,7 +82,6 @@ public class TimeController implements HotkeyEventListener {
         {
             if (ticker != null)
                 ticker.cancel();
-            System.out.println("RUN FINISHED");
             Globals.END = System.nanoTime();
             isRunning = false;
         }

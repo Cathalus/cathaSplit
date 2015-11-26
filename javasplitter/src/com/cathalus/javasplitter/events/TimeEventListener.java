@@ -5,6 +5,10 @@ package com.cathalus.javasplitter.events;
  */
 public interface TimeEventListener {
 
+    /**
+     * Gets called when a <code>TimeEvent</code> is dispatched
+     * @param e
+     */
     public void onTimeEvent(TimeEvent e);
 
 }

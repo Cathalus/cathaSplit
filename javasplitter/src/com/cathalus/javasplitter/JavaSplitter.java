@@ -99,15 +99,17 @@ public class JavaSplitter extends GUIApplication {
     {
         try {
             RunParser parser = new RunParser(new FileInputStream("res/test.lss"));
+            RunController = new RunController(parser.getRun());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
+        /*
         Run current = new Run("Test: THE GAME!");
         current.addSegment(new Segment("First",1500));
         current.addSegment(new Segment("Second",1500));
         current.addSegment(new Segment("Third",1500));
         current.addSegment(new Segment("Fourth",1500));
-        RunController = new RunController(current);
+        RunController = new RunController(current);*/
     }
 }
