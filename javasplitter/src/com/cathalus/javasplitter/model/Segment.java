@@ -3,14 +3,14 @@ package com.cathalus.javasplitter.model;
 /**
  * Created by Raymond on 25.11.2015.
  */
-public class Split {
+public class Segment {
 
     private int current = -1;
     private int miliseconds;
     private int difference = -1;
     private String name;
 
-    public Split(String name, int miliseconds)
+    public Segment(String name, int miliseconds)
     {
         this.name = name;
         this.miliseconds = miliseconds;

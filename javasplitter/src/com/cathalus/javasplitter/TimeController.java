@@ -20,7 +20,7 @@ public class TimeController implements HotkeyEventListener {
     private TimerTick ticker;
     private int period;
     private HashSet<TimeEventListener> listeners = new HashSet<>();
-    private boolean toggle = false;
+    private boolean isRunning = false;
 
     public TimeController(int period)
     {
@@ -35,6 +35,7 @@ public class TimeController implements HotkeyEventListener {
         @Override
         public void run() {
             long currentTime = System.nanoTime();
+            checkIfFinished();
             dispatch(new TimeEvent(currentTime));
         }
     }
@@ -54,30 +55,42 @@ public class TimeController implements HotkeyEventListener {
         switch (hotkey)
         {
             case START:
-                Globals.IS_RUNNING = true;
                 if (ticker != null)
                     ticker.cancel();
+                isRunning = true;
                 Globals.START = current;
                 ticker = new TimerTick();
                 timer.schedule(ticker, 0, this.period);
                 break;
             case RESET:
-                Globals.IS_RUNNING = false;
                 System.out.println("RESET");
                 if(ticker != null)
                     ticker.cancel();
+                isRunning = true;
                 Globals.START = current;
                 dispatch(new TimeEvent(current));
                 break;
-            case SPLIT:
-                if(Globals.CURRENT_SPLIT_ID == Globals.CURRENT_RUN.getSplits().size()-1)
-                {
-                    Globals.END = System.nanoTime();
-                    if (ticker != null)
-                        ticker.cancel();
-                }
+            case SEGMENT:
+                checkIfFinished();
                 break;
         }
+    }
+
+    public void checkIfFinished()
+    {
+        if(JavaSplitter.RunController.hasFinished())
+        {
+            if (ticker != null)
+                ticker.cancel();
+            System.out.println("RUN FINISHED");
+            Globals.END = System.nanoTime();
+            isRunning = false;
+        }
+    }
+
+    public boolean isRunning()
+    {
+        return isRunning;
     }
 
     public void addTimeEventListener(TimeEventListener listener)

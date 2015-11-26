@@ -1,7 +1,6 @@
 package com.cathalus.javasplitter.view;
 
-import com.cathalus.javasplitter.presenter.SplitsPresenter;
-import javafx.scene.Node;
+import com.cathalus.javasplitter.presenter.SegementsPresenter;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -9,13 +8,13 @@ import javafx.scene.layout.VBox;
 /**
  * Created by Raymond on 25.11.2015.
  */
-public class SplitsView implements SplitsPresenter.SplitsDisplay {
+public class SegmentsView implements SegementsPresenter.SegmentsDisplay {
 
     private VBox box = new VBox();
     private VBox splits = new VBox();
     private Label test;
 
-    public SplitsView()
+    public SegmentsView()
     {
         box.getChildren().add(splits);
     }
@@ -26,7 +25,7 @@ public class SplitsView implements SplitsPresenter.SplitsDisplay {
     }
 
     @Override
-    public Pane getSplitBox() {
+    public Pane getSegmentsBox() {
         return splits;
     }
 

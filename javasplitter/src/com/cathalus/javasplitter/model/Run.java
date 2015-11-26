@@ -7,29 +7,42 @@ import java.util.LinkedList;
  */
 public class Run {
 
-    private LinkedList<Split> splits = new LinkedList<>();
+    private LinkedList<Segment> segment = new LinkedList<>();
     private int attempts = 0;
     private String name;
+    private String category;
 
     public Run(String name)
     {
         this.name = name;
     }
 
-    public void addSplit(Split s)
+    public void addSegment(Segment s)
     {
-        splits.add(s);
+        segment.add(s);
     }
 
-    public LinkedList<Split> getSplits() {
-        return splits;
+    public LinkedList<Segment> getSegment() {
+        return segment;
     }
 
     public int getAttempts() {
         return attempts;
     }
 
+    public void setAttempts(int attempts) {
+        this.attempts = attempts;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

@@ -1,13 +1,14 @@
 package com.cathalus.javasplitter;
 
 import com.cathalus.javasplitter.events.HotkeyEventHandler;
+import com.cathalus.javasplitter.files.RunParser;
 import com.cathalus.javasplitter.model.Run;
-import com.cathalus.javasplitter.model.Split;
-import com.cathalus.javasplitter.presenter.SplitsPresenter;
+import com.cathalus.javasplitter.model.Segment;
+import com.cathalus.javasplitter.presenter.SegementsPresenter;
 import com.cathalus.javasplitter.presenter.TimerPresenter;
 import com.cathalus.javasplitter.util.Globals;
 import com.cathalus.javasplitter.view.Display;
-import com.cathalus.javasplitter.view.SplitsView;
+import com.cathalus.javasplitter.view.SegmentsView;
 import com.cathalus.javasplitter.view.TimerView;
 import com.tulskiy.keymaster.common.Provider;
 import javafx.scene.Scene;
@@ -16,6 +17,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,6 +35,7 @@ public class JavaSplitter extends GUIApplication {
 
     public static HotkeyEventHandler HotkeyHandler;
     public static TimeController TimeController;
+    public static RunController RunController;
 
     public JavaSplitter()
     {
@@ -56,18 +60,18 @@ public class JavaSplitter extends GUIApplication {
         Pane windowLayout = new BorderPane();
 
         presenters.put("TimerPresenter", new TimerPresenter(this, null, windowLayout));
-        presenters.put("SplitsPresenter", new SplitsPresenter(this,null,windowLayout));
+        presenters.put("SegementsPresenter", new SegementsPresenter(this,null,windowLayout));
 
         views.put("TimerView", new TimerView());
-        views.put("SplitsView", new SplitsView());
+        views.put("SegmentsView", new SegmentsView());
 
         displays.add(views.get("TimerView"));
-        displays.add(views.get("SplitsView"));
+        displays.add(views.get("SegmentsView"));
 
         presenters.get("TimerPresenter").setDisplays(displays);
         presenters.get("TimerPresenter").start();
-        presenters.get("SplitsPresenter").setDisplays(displays);
-        presenters.get("SplitsPresenter").start();
+        presenters.get("SegementsPresenter").setDisplays(displays);
+        presenters.get("SegementsPresenter").start();
 
         this.window.setScene(new Scene(windowLayout,300,300));
         this.window.show();
@@ -93,18 +97,17 @@ public class JavaSplitter extends GUIApplication {
 
     private void loadRun()
     {
-        Globals.CURRENT_RUN = new Run("TestGame");
-        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
-        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
-        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
-        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
-        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
-        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
-        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
-        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
-        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
-        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
-        Globals.CURRENT_RUN.addSplit(new Split("First",10000));
-        Globals.CURRENT_RUN.addSplit(new Split("Second",15000));
+        try {
+            RunParser parser = new RunParser(new FileInputStream("res/test.lss"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Run current = new Run("Test: THE GAME!");
+        current.addSegment(new Segment("First",1500));
+        current.addSegment(new Segment("Second",1500));
+        current.addSegment(new Segment("Third",1500));
+        current.addSegment(new Segment("Fourth",1500));
+        RunController = new RunController(current);
     }
 }
