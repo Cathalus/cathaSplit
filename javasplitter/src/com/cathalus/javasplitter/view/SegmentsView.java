@@ -21,6 +21,7 @@ public class SegmentsView implements SegmentsPresenter.SegmentsDisplay {
     public SegmentsView()
     {
         box.getChildren().add(splits);
+        splits.getStyleClass().add("segment-box");
     }
 
     @Override

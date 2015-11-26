@@ -1,7 +1,10 @@
 package com.cathalus.javasplitter;
 
+import com.cathalus.javasplitter.events.HotkeyEvent;
 import com.cathalus.javasplitter.events.HotkeyEventHandler;
+import com.cathalus.javasplitter.events.HotkeyEventListener;
 import com.cathalus.javasplitter.files.RunParser;
+import com.cathalus.javasplitter.model.Hotkey;
 import com.cathalus.javasplitter.presenter.SegmentsPresenter;
 import com.cathalus.javasplitter.presenter.TimerPresenter;
 import com.cathalus.javasplitter.util.Globals;
@@ -23,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Cathalus on 24/11/2015.
  */
-public class JavaSplitter extends GUIApplication {
+public class JavaSplitter extends GUIApplication implements HotkeyEventListener {
 
     private final ArrayList<KeyStroke> strokes = new ArrayList<>();
     private ArrayList<Display> displays = new ArrayList<Display>();
@@ -35,10 +38,14 @@ public class JavaSplitter extends GUIApplication {
     public static TimeController TimeController;
     public static RunController RunController;
 
+    private Scene scene;
+
     public JavaSplitter()
     {
         HotkeyHandler = new HotkeyEventHandler();
         TimeController = new TimeController(10);
+
+        HotkeyHandler.addHotkeyEventListener(this);
 
         loadRun();
         setupProvider();
@@ -71,7 +78,9 @@ public class JavaSplitter extends GUIApplication {
         presenters.get("SegmentsPresenter").setDisplays(displays);
         presenters.get("SegmentsPresenter").start();
 
-        this.window.setScene(new Scene(windowLayout,300,300));
+        scene = new Scene(windowLayout,300,300);
+        scene.getStylesheets().add("basic.css");
+        this.window.setScene(scene);
         this.window.show();
     }
 
@@ -93,6 +102,15 @@ public class JavaSplitter extends GUIApplication {
         }
     }
 
+    public void reloadStyle()
+    {
+        if(scene.getStylesheets().contains("basic.css")) {
+            scene.getStylesheets().remove("basic.css");
+        }else {
+            scene.getStylesheets().add("basic.css");
+        }
+    }
+
     private void loadRun()
     {
         try {
@@ -108,5 +126,18 @@ public class JavaSplitter extends GUIApplication {
         current.addSegment(new Segment("Third",1500));
         current.addSegment(new Segment("Fourth",1500));
         RunController = new RunController(current);*/
+    }
+
+    @Override
+    public void handleHotkeyEvent(HotkeyEvent e) {
+        if(e.getHotkey() == Hotkey.NEXT)
+        {
+            reloadStyle();
+        }
+    }
+
+    @Override
+    public int getPriority() {
+        return 0;
     }
 }

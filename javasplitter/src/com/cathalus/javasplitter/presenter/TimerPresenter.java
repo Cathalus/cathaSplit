@@ -2,6 +2,7 @@ package com.cathalus.javasplitter.presenter;
 
 import com.cathalus.javasplitter.GUIApplication;
 import com.cathalus.javasplitter.JavaSplitter;
+import com.cathalus.javasplitter.RunController;
 import com.cathalus.javasplitter.events.TimeEvent;
 import com.cathalus.javasplitter.events.TimeEventListener;
 import com.cathalus.javasplitter.util.Globals;
@@ -24,6 +25,7 @@ public class TimerPresenter extends Presenter implements TimeEventListener {
 
     public interface TimerDisplay extends Display {
         abstract Label getLabelTime();
+        public void setTimerBoxStyle(String style);
     }
 
     public TimerPresenter(GUIApplication app, ArrayList<Display> displays, Pane parent)
@@ -60,21 +62,20 @@ public class TimerPresenter extends Presenter implements TimeEventListener {
     {
         long elapsedTime = currentTime-Globals.START;
         int miliseconds = (int) (elapsedTime/1000000);
-        /*
-        int seconds = miliseconds/1000;
-        int ms = (miliseconds / 100)%10;
-        int sec = seconds % 60;
-        int min = seconds/60;
-        int hr = min / 60;*/
         javafx.application.Platform.runLater(() -> {
-            /*
-            timerDisplay.getLabelTime().setText(TimerText.getNumberString(hr) + ":"
-                                              + TimerText.getNumberString(min) + ":"
-                                              + TimerText.getNumberString(sec) + ":"
-                                              + TimerText.getNumberString(ms));
-                                              */
             timerDisplay.getLabelTime().setText(TimerText.toReadableTime(miliseconds,true));
         });
+
+        if(miliseconds < JavaSplitter.RunController.getCurrent().getBestTime())
+        {
+            timerDisplay.setTimerBoxStyle("timer-box-green");
+        }else{
+            timerDisplay.setTimerBoxStyle("timer-box-red");
+        }
+        if(JavaSplitter.RunController.hasFinished())
+        {
+            timerDisplay.setTimerBoxStyle("timer-box-neutral");
+        }
     }
 
     @Override

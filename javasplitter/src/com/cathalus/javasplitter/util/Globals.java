@@ -18,6 +18,7 @@ public class Globals {
         put(Hotkey.START, KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
         put(Hotkey.SPLIT, KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
         put(Hotkey.RESET, KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
+        put(Hotkey.NEXT, KeyStroke.getKeyStroke(KeyEvent.VK_F9,0));
     }};
 
     /**

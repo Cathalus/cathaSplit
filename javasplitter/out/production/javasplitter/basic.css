@@ -1,0 +1,37 @@
+.root {
+    -fx-background-color: #181818;
+}
+
+.label {
+    -fx-text-fill: #dc9656;
+}
+
+.timer {
+    -fx-text-fill: #282828;
+    -fx-font-size: 30pt;
+    -fx-font-family: Monospaced;
+}
+
+.timer-box-neutral {
+    -fx-background-color: #7cafc2;
+    -fx-padding: 10px;
+    -fx-text-fill: darkblue;
+}
+
+.timer-box-red{
+    -fx-background-color: #ab4642;
+    -fx-padding: 10px;
+    -fx-text-fill: darkred;
+}
+
+.timer-box-green{
+    -fx-background-color: #a1b56c;
+    -fx-padding: 10px;
+    -fx-text-fill: darkgreen;
+}
+
+.segment-box{
+    -fx-background-color: #282828;
+    -fx-padding: 5px;
+    -fx-border-width: 2px;
+}
