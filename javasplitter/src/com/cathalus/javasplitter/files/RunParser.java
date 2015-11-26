@@ -11,6 +11,11 @@ import java.io.*;
 /**
  * Created by Raymond on 26.11.2015.
  */
+
+/**
+ * Parses a run from a .xml file
+ * Compatible to LiveSplit's run file format
+ */
 public class RunParser {
 
     private Element documentRoot;

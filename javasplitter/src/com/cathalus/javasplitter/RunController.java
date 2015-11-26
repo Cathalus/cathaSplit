@@ -15,10 +15,16 @@ import java.util.LinkedList;
 public class RunController {
 
     /**
-     *
+     * Reference to the current <code>Run</code>
      */
     private Run current;
-    private int currentSplitIndex = 0;
+    /**
+     * Index of the currently active Segment
+     */
+    private int currentSegmentIndex = 0;
+    /**
+     * True if the run has finished
+     */
     private boolean hasFinished = false;
 
     public RunController(Run run)
@@ -26,45 +32,84 @@ public class RunController {
         this.current = run;
     }
 
+    /**
+     * Splits, stores split time and advances to the next segment
+     * @param time
+     */
+    public void split(int time)
+    {
+        current.getSegment(currentSegmentIndex).setCurrentTime(time);
+        nextSplit();
+    }
+
+    /**
+     * Increases the index of the current segment.
+     * Sets the run to finished if the last segment was the last one
+     */
     public void nextSplit()
     {
-        if(currentSplitIndex < current.getSegment().size()-1)
+        if(currentSegmentIndex < current.getSegments().size()-1)
         {
-            currentSplitIndex++;
+            currentSegmentIndex++;
         }else{
             hasFinished = true;
         }
     }
 
+    /**
+     * Decreases the index of the current segment.
+     */
     public void previousSplit()
     {
-        if(currentSplitIndex > 0)
+        if(currentSegmentIndex > 0)
         {
-            currentSplitIndex--;
+            currentSegmentIndex--;
         }
     }
 
+    /**
+     * @return Returns the currently active segment
+     */
     public Segment getCurrent()
     {
-        return current.getSegment().get(currentSplitIndex);
+        return current.getSegments().get(currentSegmentIndex);
     }
 
+    /**
+     * @return Returns the index of the currently active segment
+     */
     public int getCurrentIndex()
     {
-        return currentSplitIndex;
+        return currentSegmentIndex;
     }
 
-    public LinkedList<Segment> getSplits()
+    /**
+     * @return Returns a list of all Segments
+     */
+    public LinkedList<Segment> getSegments()
     {
-        return current.getSegment();
+        return current.getSegments();
     }
 
-    public int getCurrentSplitIndex() {
-        return currentSplitIndex;
+    /**
+     * @return Returns the index of the current segment
+     */
+    public int getCurrentSegmentIndex() {
+        return currentSegmentIndex;
     }
 
+    /**
+     * @return Returns true if the run has finished
+     */
     public boolean hasFinished()
     {
         return hasFinished;
+    }
+
+    public void reset()
+    {
+        currentSegmentIndex = 0;
+        hasFinished = false;
+        current.reset();
     }
 }

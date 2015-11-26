@@ -1,6 +1,6 @@
 package com.cathalus.javasplitter.view;
 
-import com.cathalus.javasplitter.presenter.SegementsPresenter;
+import com.cathalus.javasplitter.presenter.SegmentsPresenter;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 /**
  * Displays the list of <code>Segment</code>s in a <code>Run</code>
  */
-public class SegmentsView implements SegementsPresenter.SegmentsDisplay {
+public class SegmentsView implements SegmentsPresenter.SegmentsDisplay {
 
     private VBox box = new VBox();
     private VBox splits = new VBox();

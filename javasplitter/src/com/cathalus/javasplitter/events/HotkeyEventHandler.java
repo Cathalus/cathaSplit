@@ -4,9 +4,8 @@ import com.cathalus.javasplitter.model.Hotkey;
 import com.cathalus.javasplitter.util.Globals;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
+import javax.xml.bind.Marshaller;
+import java.util.*;
 
 /**
  * Created by Cathalus on 24/11/2015.
@@ -15,12 +14,12 @@ import java.util.Map;
 /**
  * Handles Hotkey Events
  */
-public class HotkeyEventHandler {
+public class HotkeyEventHandler implements Comparator<HotkeyEventListener> {
 
     /**
      * Contains all registered listeners
      */
-    private HashSet<HotkeyEventListener> listeners = new HashSet<>();
+    private ArrayList<HotkeyEventListener> listeners = new ArrayList<>();
 
     /**
      * Matches the <code>KeyStroke</code> to a hotkey and calls the dispatch method
@@ -59,7 +58,25 @@ public class HotkeyEventHandler {
      */
     public void addHotkeyEventListener(HotkeyEventListener listener)
     {
-        listeners.add(listener);
+        if(!listeners.contains(listener))
+        {
+            listeners.add(listener);
+            Collections.sort(listeners,this);
+            for(HotkeyEventListener l : listeners)
+            {
+                System.out.println(l.getClass());
+            }
+        }
     }
 
+    @Override
+    public int compare(HotkeyEventListener o1, HotkeyEventListener o2) {
+        if(o1.getPriority() > o2.getPriority())
+        {
+            return -1;
+        }else if(o1.getPriority() < o2.getPriority()){
+            return 1;
+        }
+        return 0;
+    }
 }

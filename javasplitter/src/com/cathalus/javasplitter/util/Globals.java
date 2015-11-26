@@ -16,7 +16,7 @@ public class Globals {
      */
     public static HashMap<Hotkey, KeyStroke> HOTKEYS = new HashMap<Hotkey,KeyStroke>(){{
         put(Hotkey.START, KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-        put(Hotkey.SEGMENT, KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
+        put(Hotkey.SPLIT, KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
         put(Hotkey.RESET, KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
     }};
 
@@ -28,4 +28,7 @@ public class Globals {
      * End time of the run
      */
     public static long END;
+
+    public static final int HK_PRIORITY_TIMECONTROLLER = 9;
+    public static final int HK_PRIORITY_SEGMENTSPRESENTER = 8;
 }

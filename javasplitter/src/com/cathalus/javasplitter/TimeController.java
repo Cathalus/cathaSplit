@@ -14,32 +14,48 @@ import java.util.TimerTask;
 /**
  * Created by Raymond on 25.11.2015.
  */
+
+/**
+ * Controls Time and Timing of a Run
+ */
 public class TimeController implements HotkeyEventListener {
 
+    /**
+     * Timer that handles timing the run
+     */
     private Timer timer;
-    private TimerTick ticker;
+    /**
+     * Task that gets called when the timer fires
+     */
+    private TimerTask ticker;
+    /**
+     * Refresh period of the timer
+     */
     private int period;
+    /**
+     * Set of TimeEventListeners
+     */
     private HashSet<TimeEventListener> listeners = new HashSet<>();
+    /**
+     * Current state of the timer
+     */
     private boolean isRunning = false;
+    /**
+     * Current state of the timer
+     */
+    private long lastSplit = 0;
 
     public TimeController(int period)
     {
         this.period = period;
-
         timer = new Timer(true);
         JavaSplitter.HotkeyHandler.addHotkeyEventListener(this);
     }
 
-    private class TimerTick extends TimerTask {
-
-        @Override
-        public void run() {
-            long currentTime = System.nanoTime();
-            checkIfFinished();
-            dispatch(new TimeEvent(currentTime));
-        }
-    }
-
+    /**
+     * Dispatches a TimerEvent to all listeners
+     * @param e TimerEvent
+     */
     private void dispatch(TimeEvent e)
     {
         for(TimeEventListener listener : listeners)
@@ -52,30 +68,45 @@ public class TimeController implements HotkeyEventListener {
     public void handleHotkeyEvent(HotkeyEvent e) {
         Hotkey hotkey = e.getHotkey();
         long current = System.nanoTime();
-        switch (hotkey)
-        {
+        switch (hotkey) {
             case START:
-                if (ticker != null)
-                    ticker.cancel();
-                isRunning = true;
-                Globals.START = current;
-                ticker = new TimerTick();
-                timer.schedule(ticker, 0, this.period);
+                if (!isRunning && !JavaSplitter.RunController.hasFinished()) {
+                    if (ticker != null)
+                        ticker.cancel();
+                    isRunning = true;
+                    Globals.START = current;
+                    ticker = new TimerTask() {
+                        @Override
+                        public void run() {
+                            long currentTime = System.nanoTime();
+                            checkIfFinished();
+                            dispatch(new TimeEvent(currentTime));
+                        }
+                    };
+                    timer.schedule(ticker, 0, this.period);
+                }
                 break;
             case RESET:
-                System.out.println("RESET");
                 if(ticker != null)
                     ticker.cancel();
-                isRunning = true;
-                Globals.START = current;
-                dispatch(new TimeEvent(current));
+                isRunning = false;
+                dispatch(new TimeEvent(Globals.START));
                 break;
-            case SEGMENT:
+            case SPLIT:
+                lastSplit = System.nanoTime()-Globals.START;
                 checkIfFinished();
                 break;
         }
     }
 
+    @Override
+    public int getPriority() {
+        return Globals.HK_PRIORITY_TIMECONTROLLER;
+    }
+
+    /**
+     * Checks if the run has finished and if true cancels the timer
+     */
     public void checkIfFinished()
     {
         if(JavaSplitter.RunController.hasFinished())
@@ -87,13 +118,27 @@ public class TimeController implements HotkeyEventListener {
         }
     }
 
+    /**
+     * @return Returns if the timer is currently running
+     */
     public boolean isRunning()
     {
         return isRunning;
     }
 
+    /**
+     * Adds a TimeEventListener to set of listeners
+     * @param listener Listener
+     */
     public void addTimeEventListener(TimeEventListener listener)
     {
         listeners.add(listener);
+    }
+
+    /**
+     * @return Returns the timestamp of the last split
+     */
+    public long getLastSplit() {
+        return lastSplit;
     }
 }

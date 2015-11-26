@@ -11,5 +11,6 @@ public interface HotkeyEventListener {
      * @param e Specified <code>HotkeyEvent</code>
      */
     public void handleHotkeyEvent(HotkeyEvent e);
+    public int getPriority();
 
 }

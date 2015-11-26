@@ -14,7 +14,7 @@ public class Run {
     /**
      * Contains all <code>Segment</code>s of the run
      */
-    private LinkedList<Segment> segment = new LinkedList<>();
+    private LinkedList<Segment> segments = new LinkedList<>();
     /**
      * The number of attempts
      */
@@ -39,14 +39,23 @@ public class Run {
      */
     public void addSegment(Segment s)
     {
-        segment.add(s);
+        segments.add(s);
     }
 
     /**
      * @return Returns the list of all Segments of the Run
      */
-    public LinkedList<Segment> getSegment() {
-        return segment;
+    public LinkedList<Segment> getSegments() {
+        return segments;
+    }
+
+    /**
+     * @param index Specifies which segments to return
+     * @return Segment with ID (index)
+     */
+    public Segment getSegment(int index)
+    {
+        return segments.get(index);
     }
 
     /**
@@ -84,5 +93,15 @@ public class Run {
      */
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public void reset() {
+        attempts++;
+        // Reset Segment Times
+        for(Segment s : segments)
+        {
+            s.setCurrentTime(0);
+            s.setDifference(0);
+        }
     }
 }

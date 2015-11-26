@@ -2,9 +2,7 @@ package com.cathalus.javasplitter;
 
 import com.cathalus.javasplitter.events.HotkeyEventHandler;
 import com.cathalus.javasplitter.files.RunParser;
-import com.cathalus.javasplitter.model.Run;
-import com.cathalus.javasplitter.model.Segment;
-import com.cathalus.javasplitter.presenter.SegementsPresenter;
+import com.cathalus.javasplitter.presenter.SegmentsPresenter;
 import com.cathalus.javasplitter.presenter.TimerPresenter;
 import com.cathalus.javasplitter.util.Globals;
 import com.cathalus.javasplitter.view.Display;
@@ -40,7 +38,7 @@ public class JavaSplitter extends GUIApplication {
     public JavaSplitter()
     {
         HotkeyHandler = new HotkeyEventHandler();
-        TimeController = new TimeController(100);
+        TimeController = new TimeController(10);
 
         loadRun();
         setupProvider();
@@ -60,7 +58,7 @@ public class JavaSplitter extends GUIApplication {
         Pane windowLayout = new BorderPane();
 
         presenters.put("TimerPresenter", new TimerPresenter(this, null, windowLayout));
-        presenters.put("SegementsPresenter", new SegementsPresenter(this,null,windowLayout));
+        presenters.put("SegmentsPresenter", new SegmentsPresenter(this,null,windowLayout));
 
         views.put("TimerView", new TimerView());
         views.put("SegmentsView", new SegmentsView());
@@ -70,8 +68,8 @@ public class JavaSplitter extends GUIApplication {
 
         presenters.get("TimerPresenter").setDisplays(displays);
         presenters.get("TimerPresenter").start();
-        presenters.get("SegementsPresenter").setDisplays(displays);
-        presenters.get("SegementsPresenter").start();
+        presenters.get("SegmentsPresenter").setDisplays(displays);
+        presenters.get("SegmentsPresenter").start();
 
         this.window.setScene(new Scene(windowLayout,300,300));
         this.window.show();
@@ -103,7 +101,6 @@ public class JavaSplitter extends GUIApplication {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
         /*
         Run current = new Run("Test: THE GAME!");
         current.addSegment(new Segment("First",1500));

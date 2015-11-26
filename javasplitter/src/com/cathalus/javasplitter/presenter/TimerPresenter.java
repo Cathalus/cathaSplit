@@ -60,16 +60,20 @@ public class TimerPresenter extends Presenter implements TimeEventListener {
     {
         long elapsedTime = currentTime-Globals.START;
         int miliseconds = (int) (elapsedTime/1000000);
+        /*
         int seconds = miliseconds/1000;
         int ms = (miliseconds / 100)%10;
         int sec = seconds % 60;
         int min = seconds/60;
-        int hr = min / 60;
+        int hr = min / 60;*/
         javafx.application.Platform.runLater(() -> {
+            /*
             timerDisplay.getLabelTime().setText(TimerText.getNumberString(hr) + ":"
                                               + TimerText.getNumberString(min) + ":"
                                               + TimerText.getNumberString(sec) + ":"
                                               + TimerText.getNumberString(ms));
+                                              */
+            timerDisplay.getLabelTime().setText(TimerText.toReadableTime(miliseconds,true));
         });
     }
 

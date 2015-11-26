@@ -20,7 +20,7 @@ public class Segment {
     /**
      * Difference between currentTime and bestTime
      */
-    private int difference = -1;
+    private int difference = 0;
     /**
      * Name of the segment
      */
@@ -61,7 +61,7 @@ public class Segment {
     }
 
     public void setCurrentTime(int currentTime) {
-        this.difference = bestTime-currentTime;
+        this.difference = currentTime-bestTime;
         this.currentTime = currentTime;
     }
 }

@@ -14,10 +14,10 @@ public enum  Hotkey {
             return "DEFAULT";
         }
     },
-    SEGMENT {
+    SPLIT {
         @Override
         public String toString() {
-            return "Segment";
+            return "Split";
         }
     },RESET {
         @Override

@@ -5,6 +5,8 @@ import com.cathalus.javasplitter.JavaSplitter;
 import com.cathalus.javasplitter.events.HotkeyEvent;
 import com.cathalus.javasplitter.events.HotkeyEventListener;
 import com.cathalus.javasplitter.model.Segment;
+import com.cathalus.javasplitter.util.Globals;
+import com.cathalus.javasplitter.util.TimerText;
 import com.cathalus.javasplitter.view.Display;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -16,7 +18,7 @@ import java.util.LinkedList;
 /**
  * Created by Raymond on 25.11.2015.
  */
-public class SegementsPresenter extends Presenter implements HotkeyEventListener {
+public class SegmentsPresenter extends Presenter implements HotkeyEventListener {
 
     private GUIApplication app;
     private Pane parent;
@@ -29,7 +31,7 @@ public class SegementsPresenter extends Presenter implements HotkeyEventListener
         public void setCurrentSplit(int i);
     }
 
-    public SegementsPresenter(GUIApplication app, ArrayList<Display> displays, Pane parent)
+    public SegmentsPresenter(GUIApplication app, ArrayList<Display> displays, Pane parent)
     {
         this.app = app;
         this.displays = displays;
@@ -61,22 +63,30 @@ public class SegementsPresenter extends Presenter implements HotkeyEventListener
 
     @Override
     public void handleHotkeyEvent(HotkeyEvent e) {
-        if(JavaSplitter.TimeController.isRunning()) {
-            switch (e.getHotkey()) {
-                case SEGMENT:
-                    JavaSplitter.RunController.nextSplit();
-                    markCurrentSplit(JavaSplitter.RunController.getCurrentSplitIndex());
-                    break;
-                case RESET:
-                case START:
-                    initializeSplits();
-                    break;
-            }
+        switch (e.getHotkey()) {
+            case SPLIT:
+                if(JavaSplitter.TimeController.isRunning()) {
+                    int currentSplit = (int) (JavaSplitter.TimeController.getLastSplit() / 1000000);
+                    JavaSplitter.RunController.split(currentSplit);
+                    markCurrentSplit(JavaSplitter.RunController.getCurrentSegmentIndex());
+                }
+                break;
+            case START:
+                break;
+            case RESET:
+                JavaSplitter.RunController.reset();
+                break;
         }
+    initializeSplits();
+    }
+
+    @Override
+    public int getPriority() {
+        return Globals.HK_PRIORITY_SEGMENTSPRESENTER;
     }
 
     private void initializeSplits() {
-        LinkedList<Segment> segments = JavaSplitter.RunController.getSplits();
+        LinkedList<Segment> segments = JavaSplitter.RunController.getSegments();
         Pane splitBox = segmentsDisplay.getSegmentsBox();
 
         javafx.application.Platform.runLater(() -> {
@@ -84,7 +94,7 @@ public class SegementsPresenter extends Presenter implements HotkeyEventListener
             labels.clear();
             for(Segment s : segments)
             {
-                labels.add(new Label(s.getName()+" - "+s.getBestTime()));
+                labels.add(new Label(s.getName()+" - "+ TimerText.toReadableTime(s.getBestTime(),true)+" | "+TimerText.toReadableTime(s.getCurrentTime(),true) + " | " + TimerText.toReadableTime(s.getDifference(),false)));
             }
 
             // clear list of segments
@@ -99,7 +109,7 @@ public class SegementsPresenter extends Presenter implements HotkeyEventListener
             }
 
             // Set opacity for the current split
-            markCurrentSplit(JavaSplitter.RunController.getCurrentSplitIndex());
+            markCurrentSplit(JavaSplitter.RunController.getCurrentSegmentIndex());
 
         });
     }
